@@ -52,7 +52,7 @@ export default function RegisterPage({ onRegister, onGoToLogin }) {
           <span style={{ transform: `scaleX(${completedFields / 4})` }} />
         </div>
       </div>
-      <form className="auth-form" onSubmit={submit}>
+      <form className="register-form" onSubmit={submit}>
         <Field label="Full Name" value={name} onChange={updateField(setName)} placeholder="Your full name" autoComplete="name" />
         <Field label="Email Address" type="email" value={email} onChange={updateField(setEmail)} placeholder="you@example.com" autoComplete="email" />
         <Field label="Phone Number" value={phone} onChange={updateField(setPhone)} placeholder="+63 912 345 6789" autoComplete="tel" />
@@ -62,8 +62,8 @@ export default function RegisterPage({ onRegister, onGoToLogin }) {
           <span>{passwordStrength.label}</span>
         </div>
         <Remember checked={remember} onChange={setRemember} />
-        {error && <p className="auth-error" role="alert">{error}</p>}
-        <button className="primary full register-submit" type="submit">
+        {error && <p className="register-error" role="alert">{error}</p>}
+        <button className="register-submit" type="submit">
           {fieldsRemaining ? `Complete ${fieldsRemaining} more ${fieldsRemaining === 1 ? "field" : "fields"}` : "Create Account"}
         </button>
       </form>
@@ -75,12 +75,12 @@ export default function RegisterPage({ onRegister, onGoToLogin }) {
 export function AuthLayout({ variant, title, description, contentKey, children }) {
   return (
     <main className={`auth-page ${variant}-page`}>
-      <section className={`auth-card ${variant}-card`}>
-        <div className="auth-brand brand">
-          <span className="brand-mark">V</span><span>Vendora</span>
+      <section className={`register-card ${variant}-card`}>
+        <div className="register-brand">
+          <span className="register-brand-mark">V</span><span>Vendora</span>
         </div>
         <h1 key={`title-${contentKey || variant}`} className={contentKey ? "auth-dynamic-heading" : ""}>{title}</h1>
-        <p key={`description-${contentKey || variant}`} className="auth-description">{description}</p>
+        <p key={`description-${contentKey || variant}`} className="register-description">{description}</p>
         {children}
       </section>
     </main>
@@ -89,17 +89,17 @@ export function AuthLayout({ variant, title, description, contentKey, children }
 
 export function Field({ label, type = "text", value, onChange, placeholder, autoComplete }) {
   return (
-    <label className="auth-field">
+    <label className="register-field">
       {label}
-      <input className="auth-input" type={type} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} autoComplete={autoComplete} />
+      <input className="register-input" type={type} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} autoComplete={autoComplete} />
     </label>
   );
 }
 
 export function Remember({ checked, onChange }) {
-  return <label className="auth-remember"><input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} /> Remember me</label>;
+  return <label className="register-remember"><input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} /> Remember me</label>;
 }
 
 export function SwitchLink({ children, onClick }) {
-  return <button className="auth-switch-link" type="button" onClick={onClick}>{children}</button>;
+  return <button className="register-switch-link" type="button" onClick={onClick}>{children}</button>;
 }

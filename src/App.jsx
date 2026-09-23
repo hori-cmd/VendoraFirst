@@ -1,5 +1,4 @@
-import "./index.css";
-import "./stylee.css";
+import "./App.css";
 import { useEffect, useState } from "react";
 import { products } from "./data/products";
 
@@ -262,9 +261,9 @@ export default function App() {
   if (!user) return renderAuthScreen();
 
   return (
-    <div className="app">
+    <div className="app-shell">
       {renderSidebar()}
-      <main className="main">
+      <main className="app-main">
         <Topbar
           user={user}
           onMenu={() => setMobileOpen(true)}
@@ -301,15 +300,15 @@ export default function App() {
             }
           />
         )}
-        {!isModerator && <div className="modebar">
+        {!isModerator && <div className="app-modebar">
           <div>
-            <span className="eyebrow">DEMO PROTOTYPE</span>
+            <span className="app-mode-label">DEMO PROTOTYPE</span>
             <strong>
               {mode === "buyer" ? "Customer Storefront" : "Seller Center"}
             </strong>
           </div>
         </div>}
-        <div className="content">{renderContent()}</div>
+        <div className="app-content">{renderContent()}</div>
       </main>
     </div>
   );
