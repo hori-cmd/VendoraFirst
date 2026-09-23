@@ -1,0 +1,6 @@
+.status { padding: 4px 8px; border-radius: 10px; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.status.delivered { background: #dff7ed; color: #0b9069; }
+.status.shipped { background: #e2f0ff; color: #3b82c4; }
+.status.processing { background: #fff0d4; color: #b47a09; }
+.status.pending { background: #ffe1e4; color: #cf5260; }
+.status.cancelled { background: #eceff2; color: #697887; }
