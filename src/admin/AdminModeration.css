@@ -1,3 +1,8 @@
+.admin-dashboard,
+.admin-page {
+  color: #102033;
+}
+
 .admin-moderation .admin-notice {
   color: var(--green);
 }
@@ -39,7 +44,7 @@
 .admin-stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 16px 0; }
 .admin-stat { min-height: 122px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 8px 20px rgba(21, 68, 58, .05); }
 .admin-stat > span, .admin-stat small { display: block; color: #6c7d89; font-size: 11px; }
-.admin-stat strong { display: block; margin: 9px 0; font-size: 25px; }
+.admin-stat strong { display: block; margin: 9px 0; color: #102033; font-size: 25px; }
 .admin-stat small { color: #087c5d; font-weight: 700; }
 .admin-stat.attention small { color: #b27d16; }
 
