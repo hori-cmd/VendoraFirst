@@ -8,6 +8,13 @@ const staffNames = {
   admin: "Vendora Admin",
 };
 
+function rolePassword(role) {
+  const saved = JSON.parse(
+    localStorage.getItem("vendora-role-passwords") || "{}",
+  );
+  return saved[role] || staffAccounts[role].password;
+}
+
 // Shared validation keeps client-side feedback consistent before a future API call.
 function validateCredentials(email, password) {
   if (!/^\S+@\S+\.\S+$/.test(email))
@@ -34,7 +41,10 @@ export function registerAccount({ name, email, phone, password }) {
     phone: phone.trim(),
     password,
   };
-  localStorage.setItem("vendora-accounts", JSON.stringify([...accounts, account]));
+  localStorage.setItem(
+    "vendora-accounts",
+    JSON.stringify([...accounts, account]),
+  );
   return { account };
 }
 
@@ -44,14 +54,19 @@ export function loginAccount({ loginRole, email, password }) {
   if (validationError) return validationError;
 
   const normalizedEmail = email.trim().toLowerCase();
-  if (localStorage.getItem(`vendora-restricted-user-${normalizedEmail}`) === "true")
-    return { error: "This account has been restricted. Contact Vendora support." };
+  if (
+    localStorage.getItem(`vendora-restricted-user-${normalizedEmail}`) ===
+    "true"
+  )
+    return {
+      error: "This account has been restricted. Contact Vendora support.",
+    };
   if (loginRole !== "buyer") {
     const staffAccount = staffAccounts[loginRole];
     if (
       !staffAccount ||
       normalizedEmail !== staffAccount.email ||
-      password !== staffAccount.password
+      password !== rolePassword(loginRole)
     )
       return { error: "Staff credentials are incorrect." };
     return {
@@ -74,8 +89,41 @@ export function loginAccount({ loginRole, email, password }) {
     return { error: "Email or password is incorrect." };
 
   return {
-    error: "No account found for this email. Use Create an account below to register it.",
+    error:
+      "No account found for this email. Use Create an account below to register it.",
   };
+}
+
+// Demo-only reset persists the password locally so the next sign-in uses it.
+export function resetAccountPassword({ email, password }) {
+  const validationError = validateCredentials(email, password);
+  if (validationError) return validationError;
+  const normalizedEmail = email.trim().toLowerCase();
+  const role = Object.keys(staffAccounts).find(
+    (key) => staffAccounts[key].email === normalizedEmail,
+  );
+  if (role) {
+    const saved = JSON.parse(
+      localStorage.getItem("vendora-role-passwords") || "{}",
+    );
+    localStorage.setItem(
+      "vendora-role-passwords",
+      JSON.stringify({ ...saved, [role]: password }),
+    );
+    return { success: true };
+  }
+  const accounts = JSON.parse(localStorage.getItem("vendora-accounts") || "[]");
+  if (!accounts.some((account) => account.email === normalizedEmail))
+    return { error: "No account was found for this email address." };
+  localStorage.setItem(
+    "vendora-accounts",
+    JSON.stringify(
+      accounts.map((account) =>
+        account.email === normalizedEmail ? { ...account, password } : account,
+      ),
+    ),
+  );
+  return { success: true };
 }
 
 export function loadStoredUser() {

@@ -894,7 +894,7 @@ export function ReportSheet({ product, user, onClose }) {
 // ---------- OrderSummary ----------
 function OrderSummary({ subtotal, shipping, go }) {
   return (
-    <aside className="summary">
+    <aside className="cart-summary">
       <h2>Order Summary</h2>
       <div>
         <span>Subtotal</span>
